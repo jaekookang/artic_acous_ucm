@@ -1,2 +1,4 @@
-# UCM visualizer
+# Articulation-Acoustics visualizer
+
+![](test.gif)
 
