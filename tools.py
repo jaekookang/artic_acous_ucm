@@ -57,6 +57,9 @@ for i, v in enumerate(vowel_list):
     medianArtic[i, :] = np.median(x, axis=0)  # 7x14
     medianAcous[i, :] = np.median(y, axis=0)  # 7x2
 
+# Estimate F1, F2 for each vowel
+y_scaled_vowels = np.dot(pca.transform(X_scaler.transform(medianArtic)), W)
+y_vowels = Y_scaler.inverse_transform(y_scaled_vowels)  # 7x2
 
 def pca_forward_plot(pc1, pc2, pc3):
     '''Plot forward mapping from PCs'''
@@ -97,15 +100,11 @@ def pca_forward_plot(pc1, pc2, pc3):
     ax2.plot(JAWx, JAWy,
              ls='None', color='g', marker='o', markersize=5, zorder=1)
     # Get UCM, CM space
-
     # F1-F2 space
     # Estimate F1, F2
     y_scaled = np.dot(x_reduced, W)
     y_recon = Y_scaler.inverse_transform(y_scaled)
     F1, F2 = y_recon[0]
-    # Estimate F1, F2 for each vowel
-    y_scaled_vowels = np.dot(pca.transform(X_scaler.transform(medianArtic)), W)
-    y_vowels = Y_scaler.inverse_transform(y_scaled_vowels)  # 7x2
     # Draw F1, F2
     ax3 = fig.add_subplot(133)
     ax3.plot(y_vowels[:, 1], y_vowels[:, 0], ls='None',
