@@ -17,6 +17,7 @@ import pickle
 app = dash.Dash(__name__)
 app.css.append_css(
     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
+server = app.server
 
 # Load data
 # D = pd.read_pickle('data/JW12_plot_data.pckl')
