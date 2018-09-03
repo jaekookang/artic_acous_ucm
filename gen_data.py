@@ -80,6 +80,7 @@ R = pd.DataFrame(np.concatenate((medianArtic, medianAcous), axis=1),
 R['Vowel'] = vowel_list
 R.to_pickle('data/ref_vowel.pckl')
 print('Reference vowel... saved')
+np.save('data/params.npy', [X_scaler, Y_scaler, G, W_guidedPCA])
 pdb.set_trace()
 
 

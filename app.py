@@ -19,16 +19,31 @@ app.css.append_css(
     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
 # Load data
-D = pd.read_pickle('data/JW12_plot_data.pckl')
+# D = pd.read_pickle('data/JW12_plot_data.pckl')
 R = pd.read_pickle('data/ref_vowel.pckl')  # 4x(14+3)
 F1_med, F2_med, F3_med = R['F1'].median(), R['F2'].median(), R['F3'].median()
 with open('data/pal_pha.pckl', 'rb') as pckl:
-     p = pickle.load(pckl)
-     pal, pha = p
+    pal, pha = pickle.load(pckl)
 artic_col = ['T1x', 'T1y', 'T2x', 'T2y', 'T3x', 'T3y',
              'T4x', 'T4y', 'ULx', 'ULy', 'LLx', 'LLy', 'JAWx', 'JAWy']
 acous_col = ['F1', 'F2', 'F3']
 vowel_list = ['IY1', 'AE1', 'AA1', 'UW1']
+# Load params
+X_scaler, Y_scaler, G, W = np.load('data/params.npy')
+
+
+def predict(pc1, pc2, pc3, pc4, pc5):
+    x_reduced = np.array([[pc1, pc2, pc3, pc4, pc5]])
+    x_recon_scaled = G.inverse_transform(x_reduced)
+    pellets = X_scaler.inverse_transform(x_recon_scaled)
+
+    y_scaled = np.dot(x_reduced, W)
+    formants = Y_scaler.inverse_transform(y_scaled)
+    # Returns:
+    #  T1x, T1y, T2x, T2y, T3x, T3y, T4x, T4y, ULx, ULy, LLx, LLy, JAWx, JAWy
+    #  F1, F2, F3
+    return pellets, formants
+
 
 # Slider settings
 xmin = -5.0
@@ -305,7 +320,6 @@ layout_224 = go.Layout(
     } for v in vowel_list],
 )
 
-
 # Set layout
 app.layout = html.Div([
     html.H1('From Articulation to Acoustics',
@@ -423,13 +437,8 @@ app.layout = html.Div([
      Input('slider-pc5', 'value')]
 )
 def update_221(pc1, pc2, pc3, pc4, pc5):
-    d = D.loc[(D.PC1 == pc1) & (D.PC2 == pc2) & (D.PC3 == pc3)
-              & (D.PC4 == pc4) & (D.PC5 == pc5), artic_col].values.tolist()
-    T1x, T1y, T2x, T2y = d[0][0], d[0][1], d[0][2], d[0][3]
-    T3x, T3y, T4x, T4y = d[0][4], d[0][5], d[0][6], d[0][7]
-    ULx, ULy, LLx, LLy = d[0][8], d[0][9], d[0][10], d[0][11]
-    JAWx, JAWy = d[0][12], d[0][13]
-
+    pellets, _ = predict(pc1, pc2, pc3, pc4, pc5)
+    T1x, T1y, T2x, T2y, T3x, T3y, T4x, T4y, ULx, ULy, LLx, LLy, JAWx, JAWy = pellets[0]
     trace = go.Scatter(
         x=[T1x, T2x, T3x, T4x, None, ULx, None, LLx, None, JAWx],
         y=[T1y, T2y, T3y, T4y, None, ULy, None, LLy, None, JAWy],
@@ -457,9 +466,8 @@ def update_221(pc1, pc2, pc3, pc4, pc5):
      Input('slider-pc5', 'value')]
 )
 def update_223(pc1, pc2, pc3, pc4, pc5):
-    d = D.loc[(D.PC1 == pc1) & (D.PC2 == pc2) & (D.PC3 == pc3)
-              & (D.PC4 == pc4) & (D.PC5 == pc5), acous_col].values.tolist()
-    F1, F2 = d[0][0], d[0][1]
+    _, formants = predict(pc1, pc2, pc3, pc4, pc5)
+    F1, F2, _ = formants[0]
 
     trace = go.Scatter(
         x=[F2],
@@ -484,9 +492,8 @@ def update_223(pc1, pc2, pc3, pc4, pc5):
      Input('slider-pc5', 'value')]
 )
 def update_222(pc1, pc2, pc3, pc4, pc5):
-    d = D.loc[(D.PC1 == pc1) & (D.PC2 == pc2) & (D.PC3 == pc3)
-              & (D.PC4 == pc4) & (D.PC5 == pc5), acous_col].values.tolist()
-    F1, F2, F3 = d[0][0], d[0][1], d[0][2]
+    _, formants = predict(pc1, pc2, pc3, pc4, pc5)
+    F1, F2, F3 = formants[0]
 
     trace = go.Scatter3d(
         x=[F1],
@@ -514,9 +521,8 @@ def update_222(pc1, pc2, pc3, pc4, pc5):
      Input('slider-pc5', 'value')]
 )
 def update_224(pc1, pc2, pc3, pc4, pc5):
-    d = D.loc[(D.PC1 == pc1) & (D.PC2 == pc2) & (D.PC3 == pc3)
-              & (D.PC4 == pc4) & (D.PC5 == pc5), acous_col].values.tolist()
-    F2, F3 = d[0][1], d[0][2]
+    _, formants = predict(pc1, pc2, pc3, pc4, pc5)
+    _, F2, F3 = formants[0]
 
     trace = go.Scatter(
         x=[F2],
