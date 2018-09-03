@@ -12,5 +12,4 @@ gunicorn==19.7.1
 scikit-image==0.13.1
 scikit-learn==0.19.1
 scikit-optimize==0.5.2
-scikits.talkbox==0.2.5
 
