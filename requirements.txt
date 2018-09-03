@@ -16,3 +16,4 @@ Flask-SeaSurf==0.2.2
 Flask-SocketIO==3.0.1
 Flask-uWSGI-WebSocket==0.6.0
 Flask-WTF==0.14.2
+gunicorn==19.7.1
