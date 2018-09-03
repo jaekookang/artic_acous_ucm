@@ -3,7 +3,7 @@ Guided PCA plotter
 
 2018-09-02
 '''
-import ipdb as pdb
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
