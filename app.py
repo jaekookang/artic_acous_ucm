@@ -19,13 +19,12 @@ app.css.append_css(
     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
 # Load data
-with open('data/pal_pha.pckl', 'rb') as pckl:
-     p = pickle.load(pckl)
-     pal, pha = p
 D = pd.read_pickle('data/JW12_plot_data.pckl')
 R = pd.read_pickle('data/ref_vowel.pckl')  # 4x(14+3)
 F1_med, F2_med, F3_med = R['F1'].median(), R['F2'].median(), R['F3'].median()
-
+with open('data/pal_pha.pckl', 'rb') as pckl:
+     p = pickle.load(pckl)
+     pal, pha = p
 artic_col = ['T1x', 'T1y', 'T2x', 'T2y', 'T3x', 'T3y',
              'T4x', 'T4y', 'ULx', 'ULy', 'LLx', 'LLy', 'JAWx', 'JAWy']
 acous_col = ['F1', 'F2', 'F3']
