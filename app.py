@@ -58,7 +58,12 @@ slider_style = {
     'padding': '0px 0px 10px 0px'
 }
 slider_text_style = {
-    'padding': '0px 30px 10px 0px',
+    'padding': '0px 10px 10px 0px',
+}
+slider_dec_style = {
+    'fontSize': '10px',
+    'padding': '0px 10px 10px 0px',
+    'width': '55px',
 }
 col1_style = {
     'width': '25%',
@@ -81,7 +86,7 @@ fig_width = 350
 fig_height = 300  # 350
 
 footer_style = {
-    'fontSize': '20px',
+    'fontSize': '15px',
     'display': 'block',
     'textAlign': 'center',
 }
@@ -325,7 +330,8 @@ layout_224 = go.Layout(
 app.layout = html.Div([
     html.H1('From Articulation to Acoustics',
             style={'textAlign': 'center'}),
-    html.H2('using Guided PCA', style={'textAlign': 'center'}),
+    html.H3('Move sliders and see how articulation and acoustics are related!', style={
+            'textAlign': 'center'}),
 
     # ---------- First column ---------- #
     html.Div(className='row', children=[
@@ -336,34 +342,45 @@ app.layout = html.Div([
                 # PC1
                 html.Div([
                     html.P('PC1', style=slider_text_style),
+                    html.P('(Jaw)', style=slider_dec_style),
                     add_slider('slider-pc1'),
                 ], style=slider_style),
                 # PC2
                 html.Div([
                     html.P('PC2', style=slider_text_style),
+                    html.P('(Tongue body)', style=slider_dec_style),
                     add_slider('slider-pc2'),
                 ], style=slider_style),
                 # PC3
                 html.Div([
                     html.P('PC3', style=slider_text_style),
+                    html.P('(Tongue dorsum)', style=slider_dec_style),
                     add_slider('slider-pc3'),
                 ], style=slider_style),
                 # PC4
                 html.Div([
                     html.P('PC4', style=slider_text_style),
+                    html.P('(Lips)', style=slider_dec_style),
                     add_slider('slider-pc4'),
                 ], style=slider_style),
                 # PC5
                 html.Div([
                     html.P('PC5', style=slider_text_style),
+                    html.P('(Residual)', style=slider_dec_style),
                     add_slider('slider-pc5'),
                 ], style=slider_style),
             ], style={'display': 'block'}),
 
             # (Btm-Left) Information (TODO)
             html.Div([
-                html.P('Please move gently on the slider.'),
-                html.P('Plotting is slow since the entire figure is updated.'),
+                html.P('''
+                This app demostrates the relationship between articulation (7 sensors: tongue tip, tongue dorsum, tongue body, tongue back, lower incisor, and lips) and acoustics (i.e., F1, F2, F3). By moving sliders, you can check how movement along the given principal component shapes the articulators and generates formant frequencies concurrently. 
+                '''),
+                html.P('This work was based on using the uncontrolled manifold method on speech production to roughly answer, "How can we decompose variability in speech proudction and which variability is good or bad?".'),
+                html.P('UCM and CM visualization will be added soon.'),
+                html.P(
+                    'For more details, see:'),
+                html.A("Link", href='https://goo.gl/WdUSG9', target='_blank')
             ], style=row_style),
         ], className='three columns', style=col1_style),
 
@@ -424,6 +441,9 @@ app.layout = html.Div([
         html.Hr(),
         html.P('Kang, Chen & Nam (2018)',
                style=footer_style),
+        html.A('GitHub',
+               href="https://github.com/jaekookang", target='_blank',
+               style={'textAlign': 'center', 'display': 'block'}),
     ]),
 ])
 
