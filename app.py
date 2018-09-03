@@ -20,7 +20,8 @@ app.css.append_css(
 
 # Load data
 with open('data/pal_pha.pckl', 'rb') as pckl:
-    pal, pha = pickle.load(pckl)
+     p = pickle.load(pckl)
+     pal, pha = p
 D = pd.read_pickle('data/JW12_plot_data.pckl')
 R = pd.read_pickle('data/ref_vowel.pckl')  # 4x(14+3)
 F1_med, F2_med, F3_med = R['F1'].median(), R['F2'].median(), R['F3'].median()
