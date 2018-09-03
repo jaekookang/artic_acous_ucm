@@ -3,7 +3,6 @@ This code includes functions to help UCM analysis
 
 2018-09-02 Jaekoo Kang
 '''
-import ipdb as pdb
 import os
 import re
 import numpy as np

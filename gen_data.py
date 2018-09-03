@@ -4,7 +4,6 @@ This script generates data for Guided PCA
 2018-09-02
 '''
 
-import ipdb as pdb
 import os
 import numpy as np
 import pickle
