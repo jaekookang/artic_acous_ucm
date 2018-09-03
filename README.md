@@ -1,10 +1,3 @@
-# Articulation-Acoustics visualizer
+# Forward mapping of articulation to acoustics using Guided PCA
 
-In progress
-
-### Test link: [nbviewer](https://goo.gl/sLHCMg)
-
-<br />
-
-![](test.gif)
-
+2018-09-02
