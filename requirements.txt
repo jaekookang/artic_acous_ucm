@@ -19,4 +19,4 @@ Flask-WTF==0.14.2
 gunicorn==19.7.1
 urllib3==1.22
 uWSGI==2.0.15
-conda==4.5.11
+conda==4.3.16
