@@ -10,7 +10,7 @@ import pandas as pd
 from scipy.io import loadmat
 from sklearn.decomposition import PCA
 from numpy.linalg import svd
-
+import tensorflow as tf
 
 def read_mat(matfile):
     '''Read matfile'''
@@ -342,3 +342,6 @@ def nullspace(A, atol=1e-13, rtol=0):
     nnz = (s >= tol).sum()
     ns = vh[nnz:].conj().T
     return ns
+    
+def sigmoid(X):
+    return 1 / (1 + np.exp(-X))         
