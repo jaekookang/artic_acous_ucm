@@ -3,12 +3,15 @@ Guided PCA plotter (main page)
  |
  |--apps
       |--app_ucm.py
-      |
       |--app_cm.py
 
 2018-09-02
+
+ref:
+- https://community.plot.ly/t/deploying-multi-page-app-to-heroku-not-deploying-as-set-up/7877/3
 '''
 
+import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
@@ -19,9 +22,11 @@ import pandas as pd
 import numpy as np
 import pickle
 
-from app import app, server
+from app import app
 from apps import app_ucm, app_cm
 
+app = dash.Dash(__name__)
+server = app.server
 server.secret_key = os.environ.get('secret_key', 'secret')
 app.config.suppress_callback_exceptions = True
 
