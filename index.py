@@ -14,6 +14,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 
+import os
 import pandas as pd
 import numpy as np
 import pickle
@@ -21,6 +22,7 @@ import pickle
 from app import app, server
 from apps import app_ucm, app_cm
 
+server.secret_key = os.environ.get('secret_key', 'secret')
 app.config.suppress_callback_exceptions = True
 
 # app.css.append_css(
