@@ -22,10 +22,11 @@ import pandas as pd
 import numpy as np
 import pickle
 
-from app import app
+# from app import app
 from apps import app_ucm, app_cm
+from app import app
 
-app = dash.Dash(__name__)
+# app = dash.Dash(__name__)
 server = app.server
 server.secret_key = os.environ.get('secret_key', 'secret')
 app.config.suppress_callback_exceptions = True

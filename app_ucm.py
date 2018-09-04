@@ -10,7 +10,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 
-from app import app
+import index.app as app
 
 import numpy as np
 import pandas as pd

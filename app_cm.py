@@ -1,8 +1,10 @@
 '''
-UCM plotter (linear regression)
+CM plotter (linear regression)
 
 2018-09-03
 '''
+# import sys 
+# sys.path.append('..')
 
 import dash
 import dash_core_components as dcc
@@ -10,7 +12,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 
-from app import app
+import index.app as app
 
 import numpy as np
 import pandas as pd
@@ -77,7 +79,7 @@ def add_slider(id):
     return dcc.Slider(
         id=id,
         # TODO: Fix marks!
-        marks={str(v): f'{v:.1f}' for v in values[::2]},
+        # marks={str(v): f'{v:.1f}' for v in values},
         min=xmin,
         max=xmax,
         step=xstep,
@@ -258,31 +260,33 @@ layout_313 = go.Layout(
 # Layout
 layout = html.Div([
     # Header
-    html.H3('UCM space in Articulation',
+    html.H3('CM space in Articulation',
             style=header_style),
-    html.H5('Changes in articulation do NOT affect acoustics',
+    html.H5('Changes in articulation DO affect acoustics',
             style=header_style),
 
     # Dropdown menu
     html.Div(className='row', children=[
         dcc.Dropdown(
-            id='app1-dropdown',
+            id='app2-dropdown',
             options=[
                 {'label': f'Vowel - {v}', 'value': i}
                 for i, v in enumerate(vowel_list)
             ],
             value=0,
         ),
-        html.Div(id='app1-display-value'),
+        html.Div(id='app2-display-value'),
     ], style=col_slider_style),
 
     html.Br(),
 
     html.Div(className='row', children=[
-        html.H6('UCM (1D)'),
+        html.H6('CM (2D)'),
         html.Div([
-            # html.P('UCM (1D)', style=slider_text_style),
-            add_slider('slider-ucm'),
+            html.P('CM1', style=slider_text_style),
+            add_slider('slider-cm1'),
+            html.P('CM2', style=slider_text_style),
+            add_slider('slider-cm2'),
         ]),
     ], style=col_slider_style),
 
@@ -291,7 +295,7 @@ layout = html.Div([
         html.Div([
             html.Div([
                 dcc.Graph(
-                    id='311',
+                    id='311_cm',
                     figure={
                         'data': traces_311,
                         'layout': layout_311,
@@ -304,7 +308,7 @@ layout = html.Div([
         html.Div([
             html.Div([
                 dcc.Graph(
-                    id='312',
+                    id='312_cm',
                     figure={
                         'data': traces_312,
                         'layout': layout_312,
@@ -317,7 +321,7 @@ layout = html.Div([
         html.Div([
             html.Div([
                 dcc.Graph(
-                    id='313',
+                    id='313_cm',
                     figure={
                         'data': traces_313,
                         'layout': layout_313,
@@ -328,31 +332,39 @@ layout = html.Div([
     ]),
 
     html.Br(),
-    dcc.Link('Go to CM plots', href='/apps/app_cm'),
+    dcc.Link('Go to UCM plots', href='/apps/app_ucm'),
     html.Br(),
     dcc.Link('Back to main page', href='/')
 ])
 
 
 @app.callback(
-    Output('311', 'figure'),
-    [Input('slider-ucm', 'value'),
-     Input('app1-dropdown', 'value')],
+    Output('311_cm', 'figure'),
+    [Input('slider-cm1', 'value'),
+     Input('slider-cm2', 'value'),
+     Input('app2-dropdown', 'value')],
 )
-def update_311(ucm1, vowel_idx):
-    ucm1 = float(ucm1)
+def update_311(cm1, cm2, vowel_idx):
+    cm1 = float(cm1)
+    cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
     xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
-    pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]
+    weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))
+    pc1, pc2, pc3 = (init_pcs + np.sum(weigthed_W, axis=1))[0]
     # Make UCM space
     d = [[(init_pcs + ucm_vec.T * i)[0, 0],
           (init_pcs + ucm_vec.T * i)[0, 1],
           (init_pcs + ucm_vec.T * i)[0, 2]]
          for i in np.arange(xmin, xmax, 0.01)]
     d = np.array(d)
+    # Make CM space
+    dd = [(init_pcs + W.T * (cm1 + cm2))[0]
+          for cm1 in np.arange(xmin, xmax, 0.1)
+          for cm2 in np.arange(xmin, xmax, 0.01)]
+    dd = np.array(dd)
 
     t1 = go.Scatter3d(
         x=d[:, 0].tolist(),
@@ -368,6 +380,19 @@ def update_311(ucm1, vowel_idx):
     )
 
     t2 = go.Scatter3d(
+        x=dd[[0, -1], 0].tolist(),
+        y=dd[[0, -1], 1].tolist(),
+        z=dd[[0, -1], 2].tolist(),
+        mode='lines',
+        visible=True,
+        marker=dict(
+            size=5,
+            color='rgb(200,0,0)',
+            opacity=0.8
+        ),
+    )
+
+    t3 = go.Scatter3d(
         x=[pc1],
         y=[pc2],
         z=[pc3],
@@ -380,23 +405,26 @@ def update_311(ucm1, vowel_idx):
             opacity=0.8
         ),
     )
-    return {'data': traces_311 + [t1, t2],
+    return {'data': traces_311 + [t1, t2, t3],
             'layout': layout_311}
 
 
 @app.callback(
-    Output('312', 'figure'),
-    [Input('slider-ucm', 'value'),
-     Input('app1-dropdown', 'value')],
+    Output('312_cm', 'figure'),
+    [Input('slider-cm1', 'value'),
+     Input('slider-cm2', 'value'),
+     Input('app2-dropdown', 'value')],
 )
-def update_312(ucm1, vowel_idx):
-    ucm1 = float(ucm1)
+def update_312(cm1, cm2, vowel_idx):
+    cm1 = float(cm1)
+    cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
     xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
-    pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]
+    weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))
+    pc1, pc2, pc3 = (init_pcs + np.sum(weigthed_W, axis=1))[0]
     # Get articulators
     x_reduced = np.array([[pc1, pc2, pc3]])  # 1x3
     x_recon_scaled = pca.inverse_transform(x_reduced)
@@ -421,18 +449,21 @@ def update_312(ucm1, vowel_idx):
 
 
 @app.callback(
-    Output('313', 'figure'),
-    [Input('slider-ucm', 'value'),
-     Input('app1-dropdown', 'value')],
+    Output('313_cm', 'figure'),
+    [Input('slider-cm1', 'value'),
+     Input('slider-cm2', 'value'),
+     Input('app2-dropdown', 'value')],
 )
-def update_313(ucm1, vowel_idx):
-    ucm1 = float(ucm1)
+def update_313(cm1, cm2, vowel_idx):
+    cm1 = float(cm1)
+    cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
     xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
-    pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]
+    weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))
+    pc1, pc2, pc3 = (init_pcs + np.sum(weigthed_W, axis=1))[0]
     # Get formants
     x_reduced = np.array([[pc1, pc2, pc3]])  # 1x3
     y_scaled = np.dot(x_reduced, W)
@@ -455,8 +486,8 @@ def update_313(ucm1, vowel_idx):
 
 
 @app.callback(
-    Output('app1-display-value', 'children'),
-    [Input('app1-dropdown', 'value')]
+    Output('app2-display-value', 'children'),
+    [Input('app2-dropdown', 'value')]
 )
 def display_value(value):
     return f'Vowel: {vowel_list[value]} is selected'

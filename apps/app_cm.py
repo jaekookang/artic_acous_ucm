@@ -3,7 +3,7 @@ CM plotter (linear regression)
 
 2018-09-03
 '''
-
+import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from utils import *
+
 
 # Load data
 df = pd.read_pickle('data/JW12.pckl')
