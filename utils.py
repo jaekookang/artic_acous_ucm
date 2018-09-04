@@ -10,7 +10,7 @@ import pandas as pd
 from scipy.io import loadmat
 from sklearn.decomposition import PCA
 from numpy.linalg import svd
-import tensorflow as tf
+# import tensorflow as tf
 
 def read_mat(matfile):
     '''Read matfile'''
