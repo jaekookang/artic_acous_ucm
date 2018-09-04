@@ -30,13 +30,12 @@ server = app.server
 server.secret_key = os.environ.get('secret_key', 'secret')
 app.config.suppress_callback_exceptions = True
 
-# app.css.append_css(
-#     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
-dcc._css_dist[0]['relative_package_path'].append('bWLwgP.css')
+app.css.append_css(
+    {"external_url": "https://raw.githubusercontent.com/jaekookang/artic_acous_ucm/master/bWLwgP_Jaekoo.css"})
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content'),
 ])
 
 # -------------------- Data processing -------------------------- #
