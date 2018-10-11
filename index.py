@@ -595,13 +595,16 @@ def update_224(pc1, pc2, pc3, pc4, pc5):
     Output('page-content', 'children'),
     [Input('url', 'pathname')]
 )
+
+wakemydyno_page = html.Div([])
+
 def display_page(pathname):
     if pathname == '/apps/app_ucm':
         return app_ucm.layout
     elif pathname == '/apps/app_cm':
         return app_cm.layout
     elif pathname == '/wakemydyno.txt':
-        return index_page
+        return wakemydyno_page
     elif (pathname == '') | (pathname == '/'):
         return index_page
     else:
