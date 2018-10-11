@@ -600,7 +600,7 @@ def display_page(pathname):
         return app_ucm.layout
     elif pathname == '/apps/app_cm':
         return app_cm.layout
-    elif pathname == '/wakemydyno.txt'
+    elif pathname == '/wakemydyno.txt':
         return index_page
     elif (pathname == '') | (pathname == '/'):
         return index_page
