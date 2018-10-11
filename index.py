@@ -591,13 +591,15 @@ def update_224(pc1, pc2, pc3, pc4, pc5):
             'layout': layout_224}
 
 
+wakemydyno_page = html.Div([
+    html.H1('Test')
+])
+
+
 @app.callback(
     Output('page-content', 'children'),
     [Input('url', 'pathname')]
 )
-
-wakemydyno_page = html.Div([])
-
 def display_page(pathname):
     if pathname == '/apps/app_ucm':
         return app_ucm.layout
