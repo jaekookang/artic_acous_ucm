@@ -359,8 +359,9 @@ index_page = html.Div([
     html.H3('Move sliders and see how articulation and acoustics are related!', style={
             'textAlign': 'center'}),
 
-    # ---------- First column ---------- #
     html.Div(className='row', children=[
+
+        # ---------- First column ---------- #
         html.Div(children=[
             html.H4('PCA slider', style={'textAlign': 'center'}),
             # (Top-Left) Sliders
