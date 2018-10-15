@@ -27,8 +27,8 @@ acous_col = ['F1', 'F2']
 vowel_list = ['AE1', 'AH1', 'AO1', 'EH1', 'IH1', 'AA1', 'IY1', 'UW1', 'UH1']
 
 # Prepare dataset
-X_raw = df.loc[:, artic_col].copy().as_matrix()
-Y_raw = df.loc[:, acous_col].copy().as_matrix()
+X_raw = df.loc[:, artic_col].values
+Y_raw = df.loc[:, acous_col].values
 # Standardize before PCA
 # Articulation
 X_scaler = StandardScaler().fit(X_raw)
@@ -52,8 +52,8 @@ nullvec = nullspace(W.T)
 medianArtic = np.zeros((len(vowel_list), 14))
 medianAcous = np.zeros((len(vowel_list), 2))
 for i, v in enumerate(vowel_list):
-    x = df.loc[df.Label == v, artic_col].as_matrix()
-    y = df.loc[df.Label == v, acous_col].as_matrix()
+    x = df.loc[df.Label == v, artic_col].values
+    y = df.loc[df.Label == v, acous_col].values
     medianArtic[i, :] = np.median(x, axis=0)  # 7x14
     medianAcous[i, :] = np.median(y, axis=0)  # 7x2
 
