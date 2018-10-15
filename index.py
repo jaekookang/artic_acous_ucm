@@ -31,8 +31,6 @@ server = app.server
 server.secret_key = os.environ.get('secret_key', 'secret')
 app.config.suppress_callback_exceptions = True
 
-# app.css.append_css(
-#     {"external_url": "https://raw.githubusercontent.com/jaekookang/artic_acous_ucm/master/bWLwgP_Jaekoo.css"})
 app.css.append_css(
     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
