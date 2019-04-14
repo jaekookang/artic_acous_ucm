@@ -76,7 +76,7 @@ def add_slider(id):
     return dcc.Slider(
         id=id,
         # TODO: Fix marks!
-        # marks={str(v): f'{v:.1f}' for v in values},
+        marks={str(v): f'{v:.1f}' for v in values[::2]},
         min=xmin,
         max=xmax,
         step=xstep,
@@ -346,7 +346,7 @@ def update_311(cm1, cm2, vowel_idx):
     cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))
@@ -417,7 +417,7 @@ def update_312(cm1, cm2, vowel_idx):
     cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))
@@ -456,7 +456,7 @@ def update_313(cm1, cm2, vowel_idx):
     cm2 = float(cm2)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     weigthed_W = np.multiply(W, np.tile([cm1, cm2], [3, 1]))

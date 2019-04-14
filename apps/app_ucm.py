@@ -343,7 +343,7 @@ def update_311(ucm1, vowel_idx):
     ucm1 = float(ucm1)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]
@@ -393,7 +393,7 @@ def update_312(ucm1, vowel_idx):
     ucm1 = float(ucm1)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]
@@ -429,7 +429,7 @@ def update_313(ucm1, vowel_idx):
     ucm1 = float(ucm1)
 
     which_vowel = vowel_list[vowel_idx]
-    xs = df.loc[df.Label == which_vowel, artic_col].as_matrix()
+    xs = df.loc[df.Label == which_vowel, artic_col].values
     medianArticV = np.median(xs, axis=0, keepdims=True)  # 1x14
     init_pcs = pca.transform(X_scaler.transform(medianArticV))
     pc1, pc2, pc3 = (init_pcs + ucm_vec.T * ucm1)[0]

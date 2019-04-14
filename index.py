@@ -34,6 +34,9 @@ app.config.suppress_callback_exceptions = True
 app.css.append_css(
     {"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
+# app.css.append_css(
+#     {"external_url": "https://codepen.io/jaekookang/pen/zXEKRY.css"})
+
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
@@ -113,18 +116,31 @@ footer_style = {
 }
 
 
-def add_slider(id):
-    return dcc.Slider(
-        id=id,
-        marks={int(i): f'{i:.1f}' for i in values
-               if (i == xmin) | (i == xmax) | (i == 0.0)},
-        min=xmin,
-        max=xmax,
-        step=xstep,
-        value=0.0,
-        updatemode='drag',
-    )
+# def add_slider(id):
+#     return dcc.Slider(
+#         id=id,
+#         marks={int(i): f'{i:.1f}' for i in values
+#                if (i == xmin) | (i == xmax) | (i == 0.0)},
+#         min=xmin,
+#         max=xmax,
+#         step=xstep,
+#         value=0.0,
+#         updatemode='drag',
+#     )
 
+def add_slider(id):
+    return html.Div([
+        dcc.Slider(
+            id=id,
+            marks={int(i): f'{i:.1f}' for i in values
+                   if (i == xmin) | (i == xmax) | (i == 0.0)},
+            min=xmin,
+            max=xmax,
+            step=xstep,
+            value=0.0,
+            updatemode='drag')],
+        style={'display':'contents'},
+    )
 
 # -------------------- Figures -------------------------- #
 fig_pharynx = go.Scatter(
