@@ -29,7 +29,7 @@ acous_col = ['F1', 'F2', 'F3']
 vowel_list = ['IY1', 'AE1', 'AA1', 'UW1']
 # Load params
 X_scaler, Y_scaler, pca, ucm_vec, W \
-    = np.load('data/params_pca=3_lr.npy')
+    = np.load('data/params_pca=3_lr.npy', allow_pickle=True)
 
 # Styles
 header_style = {

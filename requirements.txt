@@ -1,10 +1,10 @@
 numpy==1.15.1
-dash==0.26.3
+dash==0.43.0
 dash-auth==1.1.2
-dash-core-components==0.28.1
-dash-html-components==0.11.0
-dash-renderer==0.13.2
-plotly==3.1.1
+dash-core-components==0.48.0
+dash-html-components==0.16.0
+dash-renderer==0.24
+plotly==3.10.0
 pandas==0.22.0
 pandas-datareader==0.6.0
 pickleshare==0.7.4

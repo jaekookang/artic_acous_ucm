@@ -27,6 +27,8 @@ artic_col = ['T1x', 'T1y', 'T2x', 'T2y', 'T3x', 'T3y',
 acous_col = ['F1', 'F2', 'F3']
 vowel_list = ['IY1', 'AE1', 'AA1', 'UW1']
 # Load params
+# with np.load('data/params_pca=3_lr.npy', allow_pickle=True) as f:
+#     X_scaler, Y_scaler, pca, ucm_vec, W = f
 X_scaler, Y_scaler, pca, ucm_vec, W \
     = np.load('data/params_pca=3_lr.npy')
 
