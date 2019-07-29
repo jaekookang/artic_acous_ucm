@@ -4,3 +4,6 @@
 
 - Simple 3D PCA plot: [Link](http://nbviewer.jupyter.org/github/jaekookang/artic_acous_ucm/blob/master/_test_simple/forward_test.ipynb?flush_cache=true)
 - Herokuapp: [Link](http://forward-mapping.herokuapp.com/)
+	 ![tmp/demo.gif](tmp/demo.gif)
+	 
+	- Supports iPad too.

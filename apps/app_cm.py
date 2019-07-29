@@ -30,7 +30,7 @@ vowel_list = ['IY1', 'AE1', 'AA1', 'UW1']
 # with np.load('data/params_pca=3_lr.npy', allow_pickle=True) as f:
 #     X_scaler, Y_scaler, pca, ucm_vec, W = f
 X_scaler, Y_scaler, pca, ucm_vec, W \
-    = np.load('data/params_pca=3_lr.npy')
+    = np.load('data/params_pca=3_lr.npy', allow_pickle=True)
 
 # Styles
 header_style = {

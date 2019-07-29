@@ -53,7 +53,7 @@ artic_col = ['T1x', 'T1y', 'T2x', 'T2y', 'T3x', 'T3y',
 acous_col = ['F1', 'F2', 'F3']
 vowel_list = ['IY1', 'AE1', 'AA1', 'UW1']
 # Load params
-X_scaler, Y_scaler, G, W = np.load('data/params.npy')
+X_scaler, Y_scaler, G, W = np.load('data/params.npy', allow_pickle=True)
 
 
 def predict(pc1, pc2, pc3, pc4, pc5):
