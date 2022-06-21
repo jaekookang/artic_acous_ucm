@@ -1,4 +1,4 @@
-numpy==1.15.1
+numpy==1.22.0
 dash==0.43.0
 dash-auth==1.1.2
 dash-core-components==0.48.0
